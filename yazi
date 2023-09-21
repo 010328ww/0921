@@ -1,0 +1,118 @@
+//游泳接口
+    interface ISwimable
+    {
+        void Swimming();
+    }
+ 
+//叫接口
+    interface IShoutable
+    {
+        void Shouting();
+    }
+ 
+//真实的鸭子
+    class RealDuck:ISwimable,IShoutable
+    {
+        public RealDuck()
+        { }
+ 
+        public void Swimming()
+        {
+            Console.WriteLine("真实的鸭子能够在水中快速的游玩！");
+        }
+ 
+        public void Shouting()
+        {
+            Console.WriteLine("真实的鸭子叫声是：嘎嘎嘎嘎嘎嘎……");
+        }
+    }
+ 
+//橡皮鸭子
+    class RubberDuck:ISwimable,IShoutable
+    {
+        public RubberDuck()
+        { }
+ 
+        public void Swimming()
+        {
+            Console.WriteLine("橡皮的鸭子能够在水中慢慢的游！");
+        }
+ 
+        public void Shouting()
+        {
+            Console.WriteLine("橡皮的鸭子叫声是：唧唧唧唧唧唧……");
+        }
+    }
+ 
+ //木头鸭子
+    class WoodDuck:ISwimable
+    {
+        public WoodDuck()
+        { }
+   
+        public void Swimming()
+        {
+            Console.WriteLine("木头的鸭子能够在水中轻轻的游！");
+        }
+    }
+ 
+//简单工厂模式
+ 
+class Factory
+    {
+        //游泳
+        public static ISwimable CreateSwiming(string name)
+        {
+            switch (name)
+            {
+                case "1": return new RealDuck();
+                case "2": return new RubberDuck();
+                case "3": return new WoodDuck();
+                default:
+                    throw new Exception("系统找不到您选择的鸭子！");
+            }
+ 
+        }
+ 
+        //叫
+        public static IShoutable CreateShouting(string name)
+        {
+            switch (name)
+            {
+                case "1": return new RealDuck();
+                case "2": return new RubberDuck();
+                default:
+                    throw new Exception("系统找不到您选择的鸭子！");
+            }
+        }
+    }
+ 
+ 
+
+ 
+static void Main(string[] args)
+        {
+            //用户输入
+            while (true)
+            {
+                Console.WriteLine("请选择您要查看的鸭子，如下：");
+                Console.WriteLine("1、真实鸭子 2、橡皮鸭子 3、木头鸭子");
+                string name = Console.ReadLine();
+               
+                if (name=="1" ||name=="2"||name=="3")
+                {
+                    if (name != "3")
+                    {
+                        //叫
+                        IShoutable shout=  Factory.CreateShouting(name);
+                        shout.Shouting();
+                    }
+                    //游泳
+                    ISwimable swim = Factory.CreateSwiming(name);
+                    swim.Swimming();
+                    Console.WriteLine();
+                    continue;
+                }
+                Console.WriteLine("系统找不到您选择的鸭子……");                
+            }           
+        }
